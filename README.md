@@ -1,6 +1,6 @@
-# NOV Clothing Co. — landing page
+# Valois Clothing — landing page
 
-Landing de una sola página para bodies, leggins y Jogger Vena, con la estructura
+Landing de una sola página para la Blusa Elegancia, el Vestido Navia y el pantalón, con la estructura
 tomada de `https://emsa.solucionem.com/` y **todo el contenido en un solo JSON**:
 no hay que tocar el HTML ni el CSS para cambiar textos, precios, colores o
 productos.
@@ -20,7 +20,7 @@ son recortes de esos mismos flyers (ver *Fotos*, más abajo).
 └── assets/
     ├── css/styles.css      Tokens, componentes y responsive
     ├── js/app.js           Lee el JSON y construye la página
-    └── img/                Fotos (body1.jpg, botas1.jpg, pantalon1.jpg, logo.jpg…)
+    └── img/                Fotos (blusa-1.jpg, vestido-1.jpg, pantalon-1.jpg, logo.png…)
 ```
 
 `index.html` solo declara tres puntos de montaje:
@@ -64,9 +64,9 @@ abre por doble clic seguirá con el contenido anterior hasta que lo ejecutes.
 |-------|---------|-------------------|
 | 1 | Nav sticky con menú móvil | `nav`, `site` |
 | 2 | Hero (logo, eyebrow, título, lead, 2 CTA, 3 badges) | `hero` |
-| 3 | Producto 01 — Bodies (fondo crema) | `products[0]` |
-| 4 | Producto 02 — Leggins (fondo oscuro, invertido) | `products[1]` |
-| 5 | Producto 03 — Jogger Vena (fondo claro) | `products[2]` |
+| 3 | Producto 01 — Blusa Elegancia (fondo crema) | `products[0]` |
+| 4 | Producto 02 — Vestido Navia (fondo oscuro, invertido) | `products[1]` |
+| 5 | Producto 03 — Pantalón (fondo claro) | `products[2]` |
 | 6 | Beneficios (4 tarjetas con icono) | `benefits` |
 | 7 | Cómo comprar (3 pasos) | `steps` |
 | 8 | Preguntas frecuentes (acordeón `<details>`) | `faq` |
@@ -136,9 +136,9 @@ salen a 900×1125 px (4:5), que es la proporción del marco de la galería:
 
 | Archivo | Origen |
 |---------|--------|
-| `body-negro/-beige/-azul.jpg` | las tres modelos de `Bodys.png` |
-| `leggins-gris/-figura/-colores.jpg` | modelo y carta de color de `Leggins.png` |
-| `jogger-azul/-look/-colores.jpg` | modelo y trío de `Pantalon bota recta.png` |
+| `blusa-1/-2/-3.jpg` | recortes de `Blusa.png` |
+| `vestido-1/-2/-3.jpg` | recortes de `Vestido.png` |
+| `pantalon-1/-2/-3.jpg` | recortes de `Pantalon.png` |
 | `logo.png` | wordmark de `Logo.png`, con el blanco convertido en transparencia |
 | `logo.jpg` | el mismo logo sobre crema, para favicon y `og:image` |
 

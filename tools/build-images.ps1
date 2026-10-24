@@ -1,5 +1,5 @@
 # =============================================================================
-# Genera assets/img a partir de los flyers de "fotos productos" y de Logo.png.
+# Genera assets/img a partir de los flyers de "fotos productos".
 # Sólo usa System.Drawing de .NET: no hace falta instalar nada.
 #
 #     powershell -ExecutionPolicy Bypass -File tools\build-images.ps1
@@ -62,20 +62,20 @@ function Export-Shot($file, $name, $x, $y, $w, $h, $fit) {
   $g.Dispose(); $canvas.Dispose(); $image.Dispose()
 }
 
-"Bodys.png"
-Export-Shot "Bodys.png" "body-negro" 4   330 364 455 $false
-Export-Shot "Bodys.png" "body-beige" 379 330 364 455 $false
-Export-Shot "Bodys.png" "body-azul"  754 330 364 455 $false
+"Blusa.png"
+Export-Shot "Blusa.png" "blusa-1" 0   0   600 750 $false
+Export-Shot "Blusa.png" "blusa-2" 0   450 600 750 $false
+Export-Shot "Blusa.png" "blusa-3" 640 380 480 600 $false
 
-"Leggins.png"
-Export-Shot "Leggins.png" "leggins-gris"    0  560 440 550 $false
-Export-Shot "Leggins.png" "leggins-figura"  10  60 430 537 $false
-Export-Shot "Leggins.png" "leggins-colores" 402 900 618 505 $true
+"Vestido.png"
+Export-Shot "Vestido.png" "vestido-1" 530 0   720 900  $false
+Export-Shot "Vestido.png" "vestido-2" 540 340 640 800 $false
+Export-Shot "Vestido.png" "vestido-3" 70  250 480 600 $false
 
-"Pantalon bota recta.png"
-Export-Shot "Pantalon bota recta.png" "jogger-azul"     20 430 520 650 $false
-Export-Shot "Pantalon bota recta.png" "jogger-look"      0 200 560 700 $false
-Export-Shot "Pantalon bota recta.png" "jogger-colores" 565 605 665 478 $true
+"Pantalon.png"
+Export-Shot "Pantalon.png" "pantalon-1" 620 0   600 750 $false
+Export-Shot "Pantalon.png" "pantalon-2" 620 480 600 750 $false
+Export-Shot "Pantalon.png" "pantalon-3" 50  440 570 712 $false
 
 # ── Flyers completos para el carrusel del hero ───────────────────────────────
 # No se recortan: se muestran enteros, sólo se reducen de peso. Los PNG de
@@ -100,43 +100,12 @@ function Export-Flyer($file, $name) {
 }
 
 "Flyers para el carrusel"
-Export-Flyer "Bodys.png" "flyer-bodies"
-Export-Flyer "Leggins.png" "flyer-leggins"
-Export-Flyer "Pantalon bota recta.png" "flyer-joggers"
+Export-Flyer "Blusa.png" "flyer-blusa"
+Export-Flyer "Vestido.png" "flyer-vestido"
+Export-Flyer "Pantalon.png" "flyer-pantalon"
 
-# ── Logo ─────────────────────────────────────────────────────────────────────
-# El wordmark es tinta oscura sobre blanco. Se usa la luminancia como canal
-# alfa, así los bordes quedan suaves y el logo funciona sobre cualquier fondo.
-"Logo.png"
-$logo = [System.Drawing.Image]::FromFile((Join-Path $root "Logo.png"))
-$pair = New-Canvas 890 430
-$crop = $pair[0]; $g = $pair[1]
-$g.DrawImage($logo, (New-Object System.Drawing.Rectangle(0, 0, 890, 430)),
-                    (New-Object System.Drawing.Rectangle(170, 460, 890, 430)),
-                    [System.Drawing.GraphicsUnit]::Pixel)
-$g.Dispose(); $logo.Dispose()
-
-$transparent = New-Object System.Drawing.Bitmap(890, 430, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
-for ($py = 0; $py -lt 430; $py++) {
-  for ($px = 0; $px -lt 890; $px++) {
-    $c = $crop.GetPixel($px, $py)
-    $lum = (0.299 * $c.R + 0.587 * $c.G + 0.114 * $c.B)
-    if ($lum -ge 232) { $a = 0 } else { $a = [int](255 - ($lum * 255 / 232)) }
-    $transparent.SetPixel($px, $py, [System.Drawing.Color]::FromArgb($a, 29, 29, 31))
-  }
-}
-$transparent.Save((Join-Path $out "logo.png"), [System.Drawing.Imaging.ImageFormat]::Png)
-"  {0,-22} 890x430 con fondo transparente" -f "logo.png"
-
-# Versión opaca sobre crema, para favicon y og:image.
-$pair = New-Canvas 600 600
-$flat = $pair[0]; $g = $pair[1]
-$g.Clear([System.Drawing.ColorTranslator]::FromHtml("#f6f1e9"))
-$g.DrawImage($transparent, (New-Object System.Drawing.Rectangle(40, 205, 520, 251)))
-$g.Dispose()
-Save-Jpeg $flat (Join-Path $out "logo.jpg") 92
-"  {0,-22} 600x600 sobre crema" -f "logo.jpg"
-$flat.Dispose(); $transparent.Dispose(); $crop.Dispose()
+# El logo (assets/img/logo.png, logo.jpg, icon.png) se genera a partir de Logo.jpg
+# en la raíz y ya no se toca desde este script.
 
 ""
 "Listo. " + (Get-ChildItem $out).Count + " archivos en assets\img."
